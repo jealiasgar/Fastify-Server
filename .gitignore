@@ -1,0 +1,8 @@
+node_modules/
+data/
+web-app/
+keys/
+package-lock.json
+tmp/
+.npmrc
+uploads/
