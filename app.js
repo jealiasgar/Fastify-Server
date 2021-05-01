@@ -74,7 +74,7 @@ let loadConfig = () => {
 let loadMiddleWare = () => {
 	let http = require(appDir + "/config/http")
 
-	for (let item in http) {
+	for (let item of http.middleware) {
 		_runtime.app.use(item)
 	}
 	for (let item in http.static) {
@@ -141,7 +141,7 @@ let loadControllers = () => {
 						throw err
 					}
 				}
-				route = "/" + name + "/" + version + route
+				route = ("/" + name + "/" + version + route).toLowerCase()
 				_log("Route | ", verb)
 				_log("Added | \t " + route)
 				_log(colors.grey(logbeauty.SHORTHR))
