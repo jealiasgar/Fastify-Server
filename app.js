@@ -75,6 +75,7 @@ let loadMiddleWare = () => {
 	let http = require(appDir + "/config/http")
 
 	for (let item of http.middleware) {
+		console.log(item)
 		_runtime.app.use(item)
 	}
 	for (let item in http.static) {
@@ -175,6 +176,9 @@ let loadControllers = () => {
 					})
 				}
 
+				let body = ctrl[item].hasOwnProperty("body")
+					? ctrl[item].body
+					: {}
 				let querystring = ctrl[item].hasOwnProperty("querystring")
 					? ctrl[item].querystring
 					: {}
@@ -198,6 +202,7 @@ let loadControllers = () => {
 							method: verb,
 							url: route,
 							schema: {
+								body,
 								querystring,
 							},
 							preHandler: totalPolicies,
@@ -208,7 +213,7 @@ let loadControllers = () => {
 					case "POST": {
 						_runtime.app.route({
 							method: verb,
-							// schema,
+							schema: { body, querystring },
 							url: route,
 							preHandler: totalPolicies,
 							handler,
@@ -476,7 +481,7 @@ let load = async () => {
 
 const glow = async (next) => {
 	require("dotenv").config({ path: projectDir + "/config/env/.env" })
-	_runtime.app = fastify({ logger: true })
+	_runtime.app = fastify(/*{ logger: true }*/)
 	await _runtime.app.register(require("fastify-express"))
 	await load()
 	let port = config.port || 1337

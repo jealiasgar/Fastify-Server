@@ -40,7 +40,7 @@ var corsOptions = {
 let corsMiddle = cors(corsOptions)
 
 module.exports = {
-	middleware: [bodyParser, compression(), corsMiddle],
+	middleware: [compression(), corsMiddle],
 	static: {
 		"/": "/web-app/dist",
 	},
